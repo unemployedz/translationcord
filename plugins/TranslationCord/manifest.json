@@ -1,0 +1,13 @@
+{
+  "name": "TranslationCord",
+  "description": "Translate a selected Discord message from English to French.",
+  "authors": [
+    {
+      "name": "unemployedz"
+    }
+  ],
+  "main": "index.js",
+  "vendetta": {
+    "icon": "ic_language"
+  }
+}
