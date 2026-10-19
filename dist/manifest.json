@@ -1,0 +1,14 @@
+{
+  "name": "TranslationCord",
+  "description": "Translate a selected Discord message from English to French via the long-press menu. Result is shown locally and is never sent to the channel.",
+  "authors": [
+    {
+      "name": "unemployedz"
+    }
+  ],
+  "main": "index.js",
+  "hash": "35da49c815d77d967f256f4dca3b0572b357d46129fbd8332550fceb98f9564d",
+  "vendetta": {
+    "icon": "ic_language"
+  }
+}

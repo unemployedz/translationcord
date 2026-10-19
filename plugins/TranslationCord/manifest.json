@@ -1,6 +1,6 @@
 {
   "name": "TranslationCord",
-  "description": "Translate a selected Discord message from English to French.",
+  "description": "Translate a selected Discord message from English to French via the long-press menu. Result is shown locally and is never sent to the channel.",
   "authors": [
     {
       "name": "unemployedz"
