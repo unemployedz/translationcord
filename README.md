@@ -1,63 +1,77 @@
 # TranslationCord
 
-Kettu-compatible plugin: long-press a Discord message → **Translate Message** → view an English→French translation in a native-looking screen. The translation is **never** sent into the conversation.
+Kettu plugin that adds **Translate Message** to Discord’s long-press message menu and shows an English → French translation on screen (never sent to the channel).
 
-## Features (v1)
+## What it does
 
-- Adds **Translate Message** to the message long-press action sheet
-- Translates **only** the selected message’s plain text
-- Shows loading, error, empty-message, and success states
-- Does not send the translation to the channel
-- Does not access or export the Discord authentication token
-- Sends only message text to external translation providers (no user IDs / tokens)
+When you **long-press a message** in Discord, the usual sheet appears (Reply, Forward, Report, Copy, etc.).
+With this plugin enabled, that same sheet also includes:
 
-## Install on Kettu (iOS)
+**Translate Message**
 
-1. Install [KettuTweak](https://github.com/C0C0B01/KettuTweak) and open Discord.
-2. Open **Settings → Plugins**.
-3. Tap **+** and paste the plugin install URL (directory that contains `manifest.json` + `index.js`):
+Tap it → a screen opens with the French translation (plus loading / error states). Nothing is posted to the chat.
 
-   ```
-   https://raw.githubusercontent.com/unemployedz/translationcord/main/dist/
-   ```
+## Install (Kettu on iOS)
 
-   If raw.githubusercontent.com is blocked on your network, host the `dist/` folder on any static HTTPS host and use that directory URL instead (must end with `/`).
+1. Open Discord with **Kettu** installed (via [KettuTweak](https://github.com/C0C0B01/KettuTweak)).
+2. Go to **Settings → Plugins**.
+3. Tap the **+** button.
+4. Paste **exactly** this URL (keep the trailing `/`):
 
-4. Enable the plugin and restart Discord if needed.
-5. Long-press any message with English text → **Translate Message**.
+```
+https://cdn.jsdelivr.net/gh/unemployedz/translationcord@main/dist/
+```
 
-> **Note:** The repository may be private. Raw GitHub URLs require the repo to be **public**, or you must use a public static host / GitHub Pages. Making the repo public or enabling Pages is required for install without a private token.
+5. Install / enable **TranslationCord**.
+6. Fully close Discord and reopen it (or reload if Kettu offers that).
+7. Open any chat → **long-press** a message that has English text → look for **Translate Message** in the menu.
+
+### Why the “raw.githubusercontent.com/…/dist/” link looked broken
+
+Opening a **folder** URL in a browser shows “Not Found”. That is normal.
+Kettu does not open the folder in a browser; it requests:
+
+- `…/dist/manifest.json`
+- `…/dist/index.js`
+
+Those files are public and work. Prefer the **jsDelivr** URL above; it is more reliable on mobile.
+
+Alternate (same files):
+
+```
+https://raw.githubusercontent.com/unemployedz/translationcord/main/dist/
+```
+
+## GitHub Pages (optional)
+
+You do **not** need Pages if you use the jsDelivr URL. If you still want Pages:
+
+1. Open the repo on GitHub → **Settings** → **Pages**.
+2. Under **Build and deployment** → **Source**, choose **Deploy from a branch**.
+3. Branch: **main**, folder: **/ (root)** → Save.
+4. After a minute, copy `dist/manifest.json` and `dist/index.js` to the repo root *or* use:
+   `https://unemployedz.github.io/translationcord/dist/`
+   (only works after Pages is enabled and the site is live).
 
 ## Privacy
 
-- No Discord token is read or stored.
-- No message history is logged by the plugin.
-- Only the selected message’s text content is sent to a translation provider.
-- Providers tried (in order): unofficial Google Translate (`client=gtx`), MyMemory, LibreTranslate-compatible mirrors.
-- These public endpoints can rate-limit, change, or block traffic. Do not translate sensitive messages if you do not trust the provider.
+- Does not read or store your Discord token.
+- Does not log message history.
+- Sends only the selected message’s text to a translation provider (Google gtx, then MyMemory).
 
-## Development
+## Troubleshooting
 
-Source lives under `plugins/TranslationCord/`.
+| Problem | What to try |
+|--------|-------------|
+| Plugin won’t install | Use the jsDelivr URL with the trailing `/`. Confirm the plugin is enabled. |
+| No “Translate Message” | Reload Discord after enabling. Long-press the message bubble, not the avatar. |
+| Translation errors | Network/rate limits on free providers; try again later or with shorter text. |
+| Empty result | Message has no plain text (only embed/attachment). |
 
-- `src/index.tsx` – action-sheet patch + result UI
-- `src/translate.ts` – replaceable provider chain
-- `dist/` – built installable bundle (`manifest.json` + `index.js` with `hash`)
+## Source
 
-To rebuild the distribution bundle after editing source, re-bundle into a single IIFE that uses the `vendetta` runtime object (see `dist/index.js`), then update `hash` in `dist/manifest.json` to the SHA-256 of `index.js`.
-
-## Compatibility
-
-- Client: **Kettu** (Vendetta/Bunny-compatible plugin loader)
-- Platform: Discord mobile (iOS via KettuTweak; Android loaders that use the same plugin API should work)
-- Verified against Kettu’s `VdPluginManager` manifest schema (`name`, `description`, `authors`, `main`, `hash`, optional `vendetta.icon`)
-
-## Limitations
-
-- On-device action-sheet injection and navigation must be confirmed on a real Kettu install; APIs follow patterns used by ViewRaw / local-pins / similar plugins.
-- Free translation endpoints are best-effort and may fail under rate limits.
-- Embeds / attachments without plain text are reported as empty.
-- Making the install URL publicly reachable requires a public repo or external static hosting.
+- Plugin source: `plugins/TranslationCord/`
+- Installable bundle: `dist/` (`manifest.json` + `index.js`)
 
 ## License
 
